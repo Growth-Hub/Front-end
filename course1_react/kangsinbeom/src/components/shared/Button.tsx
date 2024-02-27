@@ -9,7 +9,9 @@ const Button = styled.button<ButtonProps>(
   {
     cursor: "pointer",
     fontWeight: "bold",
-    borderRadius: "6px",
+    borderRadius: "60px",
+    padding: "10px 18px",
+    border: "1px solid black",
   },
   ({ full }) =>
     full

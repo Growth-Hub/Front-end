@@ -6,7 +6,7 @@ export interface Dog {
   height: number;
 }
 
-interface Breed {
+export interface Breed {
   weight: {
     imperial: string;
     metric: string;

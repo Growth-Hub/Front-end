@@ -6,14 +6,14 @@ interface TextProps {
   display?: CSSProperties["display"];
   fontWeight?: CSSProperties["fontWeight"];
   fontSize?: CSSProperties["fontSize"];
-  bold?: boolean;
+  $bold?: boolean;
 }
 const Text = styled.span<TextProps>(
-  ({ color = "black", display, fontSize, bold, fontWeight }) => ({
+  ({ color = "black", display, fontSize, $bold, fontWeight }) => ({
     color,
     display,
     fontSize,
-    fontWeight: bold ? "bold" : fontWeight,
+    fontWeight: $bold ? "bold" : fontWeight,
   })
 );
 
