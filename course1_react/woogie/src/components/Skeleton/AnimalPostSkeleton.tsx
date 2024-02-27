@@ -6,7 +6,7 @@ export const AnimalPostSkeleton = () => {
   return (
     <S.AnimalPostGridContainer>
       {fallbackItem.map(item => (
-        <S.AnimalPostWrapper key={item}>
+        <S.AnimalPostWrapper key={item} $photospan={1}>
           <S.AnimialPostSkeleton />
         </S.AnimalPostWrapper>
       ))}

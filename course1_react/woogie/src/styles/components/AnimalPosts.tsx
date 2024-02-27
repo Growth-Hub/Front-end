@@ -2,14 +2,15 @@ import styled from 'styled-components'
 
 export const AnimalPostGridContainer = styled.div`
   display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: repeat(2, 1fr);
+  gap: 0.5rem;
+  padding: 2rem;
+  grid-template-columns: repeat(4, 250px);
+  grid-auto-rows: 10px;
 `
 
-export const AnimalPostWrapper = styled.div`
+export const AnimalPostWrapper = styled.div<{ $photospan: number }>`
   cursor: pointer;
-  height: 10rem;
+  grid-row: ${props => `span ${props.$photospan}`};
   img {
     border-radius: 2rem;
     object-fit: cover;

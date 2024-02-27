@@ -11,12 +11,13 @@ export const Backdrop = styled.div`
 
 export const ModalWrapper = styled.div`
   display: flex;
-  width: 100vw;
+  position: fixed;
+  width: 100%;
   height: 100vh;
   justify-content: center;
   align-items: center;
-  position: absolute;
   top: 0;
+  left: 0;
 `
 
 export const ModalImage = styled.div`
