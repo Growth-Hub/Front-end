@@ -4,3 +4,7 @@ export { default as Item } from "./Item";
 export { default as ItemList } from "./ItemList";
 export { default as Pagination } from "./Pagination";
 export { default as Text } from "./Text";
+export { default as Spacing } from "./Spacing";
+export { default as Select } from "./Select";
+export { default as Button } from "./Button";
+export { default as Input } from "./Input";
