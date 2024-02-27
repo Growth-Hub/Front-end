@@ -1,14 +1,24 @@
 import * as S from '@styles/components/AnimalPosts'
-import { useGetAnimalPicture } from '@hooks/api/useGetAnimalPicture'
+// import { useGetInfiniteAnimalPicture } from '@hooks/api/useGetInfiniteAnimalPicture'
+import { useGetInfiniteAnimalPicture } from '@hooks/api/useGetInfiniteAnimalPicture'
 import AnimalPost from './AnimalPost'
 
 export default function AnimalPosts() {
-  const animalPictureData = useGetAnimalPicture()
+  const { data, observerElem, isLoading } = useGetInfiniteAnimalPicture()
   return (
     <S.AnimalPostGridContainer>
-      {animalPictureData.map(post => (
-        <AnimalPost key={post.id} id={post.id} postUrl={post.url} />
-      ))}
+      {data &&
+        data.pages.map((post, index) => (
+          <AnimalPost
+            ref={data.pages.length - 1 === index ? observerElem : null}
+            key={post.id}
+            id={post.id}
+            postUrl={post.url}
+            width={post.width}
+            height={post.height}
+          />
+        ))}
+      {isLoading ? <p>is Loading..</p> : ''}
     </S.AnimalPostGridContainer>
   )
 }
