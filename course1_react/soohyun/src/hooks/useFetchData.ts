@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 
 async function fetchData (page: number, limit: number = 12) {
-    // localStorage 데이터 존재 유무 확인. 유 => 로컬에서 불러옴
-    const cachedData = localStorage.getItem(`catImages-page-${page}`);
+    // sessionStorage 데이터 존재 유무 확인. 유 => 로컬에서 불러옴
+    const cachedData = sessionStorage.getItem(`catImages-page-${page}`);
     if (cachedData) return JSON.parse(cachedData);
 
   const response = await fetch(`https://api.thecatapi.com/v1/images/search?limit=${limit}&page=${page}`, {
@@ -11,8 +11,6 @@ async function fetchData (page: number, limit: number = 12) {
   if (!response.ok) throw new Error('Network response was not ok');
 
   const data = await response.json();
-  // 데이터를 로컬 스토리지에 저장
-  localStorage.setItem(`catImages-page-${page}`, JSON.stringify(data));
   return data;
 };
 
