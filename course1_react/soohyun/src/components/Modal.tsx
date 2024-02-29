@@ -22,16 +22,15 @@ const ModalContent = styled.div`
 
 interface ModalProps {
   children: ReactNode;
-  isOpen: boolean;
-  onClose: () => void;
+  modalOpen: boolean;
+  modalClose: () => void;
 }
 
-
-export default function Modal({ children, isOpen, onClose }: ModalProps) {
-  if (!isOpen) return null;
+export default function Modal({ children, modalOpen, modalClose }: ModalProps) {
+  if (!modalOpen) return null;
 
   return ReactDOM.createPortal(
-    <ModalBack onClick={onClose}>
+    <ModalBack onClick={modalClose}>
       <ModalContent onClick={(e) => e.stopPropagation()}>
         {children}
       </ModalContent>
