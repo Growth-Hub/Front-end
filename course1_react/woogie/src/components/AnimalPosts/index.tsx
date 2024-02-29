@@ -1,5 +1,4 @@
 import * as S from '@styles/components/AnimalPosts'
-// import { useGetInfiniteAnimalPicture } from '@hooks/api/useGetInfiniteAnimalPicture'
 import { useGetInfiniteAnimalPicture } from '@hooks/api/useGetInfiniteAnimalPicture'
 import AnimalPost from './AnimalPost'
 

@@ -1,6 +1,5 @@
 import { useInfiniteQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { useCallback, useEffect, useRef } from 'react'
 
 const axiosAnimalApi = axios.create({
   baseURL: process.env.REACT_APP_ANIMAL_API,
@@ -9,7 +8,7 @@ const axiosAnimalApi = axios.create({
   },
 })
 
-export const fetchAnimalPost = async (currentPage: number) => {
+const fetchAnimalPost = async (currentPage: number) => {
   const { data } = await axiosAnimalApi.get<AnimalPostType[]>(`${currentPage}`)
   const postsUrls = data.map(post => {
     return new Promise((res, rej) => {
@@ -25,10 +24,8 @@ export const fetchAnimalPost = async (currentPage: number) => {
   return data
 }
 
-export const useGetInfiniteAnimalPicture = () => {
-  const observerElem = useRef<HTMLDivElement>(null)
-
-  const { data, fetchNextPage, isLoading, hasNextPage } = useInfiniteQuery({
+export const useGetInfiniteAnimalVirtuoso = () => {
+  const { data, fetchNextPage, isLoading } = useInfiniteQuery({
     queryKey: ['animalPictureInfinite'],
     queryFn: ({ pageParam }) => fetchAnimalPost(pageParam),
     initialPageParam: 1,
@@ -44,38 +41,10 @@ export const useGetInfiniteAnimalPicture = () => {
     refetchOnWindowFocus: false,
   })
 
-  const handleObserver: IntersectionObserverCallback = useCallback(
-    entries => {
-      const [target] = entries
-
-      if (target.isIntersecting && hasNextPage) {
-        fetchNextPage()
-      }
-    },
-    [fetchNextPage, hasNextPage],
-  )
-
-  useEffect(() => {
-    const element = observerElem.current
-
-    const option = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 1,
-    }
-
-    const observer = new IntersectionObserver(handleObserver, option)
-    if (element) observer.observe(element)
-
-    return () => {
-      if (element) observer.unobserve(element)
-    }
-  })
-
   return {
     data,
     isLoading,
-    observerElem,
+
     fetchNextPage,
   }
 }

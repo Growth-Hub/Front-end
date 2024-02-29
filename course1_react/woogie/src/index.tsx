@@ -21,10 +21,8 @@ const persister = createSyncStoragePersister({
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
 root.render(
-  <React.StrictMode>
-    <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
-      <ReactQueryDevtools initialIsOpen={false} />
-      <App />
-    </PersistQueryClientProvider>
-  </React.StrictMode>,
+  <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
+    <ReactQueryDevtools initialIsOpen={false} />
+    <App />
+  </PersistQueryClientProvider>,
 )
