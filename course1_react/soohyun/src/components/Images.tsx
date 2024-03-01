@@ -1,25 +1,33 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { useImages } from '../context/ImagesContext';
+import { useCats } from '../hooks/useCats';
 import Modal from './Modal';
+import { Cat } from '../models/cat';
 
 const GridContainer = styled.div`
-  column-count: 3;
-  column-gap: 20px; 
-  width: 100%;
-  break-inside: avoid; 
+  display: grid;
+  gap: 0.5rem;
+  padding: 10px;
+  grid-template-columns: repeat(4, 1fr); 
 `;
 
-const ImageContainer = styled.div`
-  break-inside: avoid;
-  margin-bottom: 20px;
+const ImageContainer = styled.div<{ photoSpan: number }>`
+  cursor: pointer;
+  grid-row: span ${props => props.photoSpan};
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.5s ease-in-out;
+    border-radius: 15px;
+  }
 `;
 
-const StyledImage = styled.img`
-  width: 100%;
-  border-radius: 15px;
-  transition: opacity 0.5s ease-in-out;
-  object-fit: cover;
+const BreedContainer = styled.div`
+  display: flex;
+  width: inherit;
+  align-items: center;
 `;
 
 const loading = keyframes`
@@ -29,56 +37,60 @@ const loading = keyframes`
   100% {
     background-position: 468px 0
   }
-`;
+`
 
-const Skeleton = styled.div`
+const Skeleton = styled.div<{ aspectRatio: string }>`
   width: 100%;
-  border-radius: 10px;
+  border-radius: 15px;
   background: linear-gradient(90deg, #EAEAEA 25%, #eee 50%, #EAEAEA 75%);
-  animation: ${loading} 3s ease-in-out infinite;
+  animation: ${loading} 2s ease-in-out infinite;
+  padding-top: ${props => props.aspectRatio};
 `;
 
-const ImageLoader = React.memo(({ src, alt, width, height }: { src: string; alt: string; width: number; height: number }) => {
+const ImageLoader = React.memo(({ id, url, width, height, breeds }: Cat) => {
   const [loaded, setLoaded] = useState(false);
-  const aspectRatio = (height / width) * 100;
-  const DynamicSkeleton = styled(Skeleton)`padding-top: ${aspectRatio}%;`;
-  const [isModalOpen, setIsModalOpen] = useState(false); 
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
+  const aspectRatio = `${(height / width) * 100}%`;
+  const photoSpan = Math.ceil((height / width) * 200 / 10);
+  const [modalOpen, setModalOpen] = useState(false); 
 
   return (
-    <ImageContainer onClick={openModal}>
-      {!loaded && <DynamicSkeleton />}
-      <StyledImage
-        src={src}
-        alt={alt}
-        style={{ opacity: loaded ? 1 : 0 }}
-        onLoad={() => setLoaded(true)}
-        loading="lazy"
-      />
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <img src={src} alt={alt} style={{ maxWidth: '100%', maxHeight: '80vh' }} />
-      </Modal>
-    </ImageContainer>
-    
+    <>
+      <ImageContainer photoSpan={photoSpan}>
+        {!loaded && <Skeleton aspectRatio={aspectRatio} />}
+        <img
+          alt="cat"
+          src={url}
+          style={{ opacity: loaded ? 1 : 0 }}
+          onLoad={() => setLoaded(true)}
+          onClick={() => setModalOpen(true)}
+        />
+        <Modal modalOpen={modalOpen} modalClose={() => setModalOpen(false)}>
+          <img src={url} alt={id} style={{ maxWidth: '100%', maxHeight: '70dvh' }} />
+          <BreedContainer>
+            {breeds?.map(breed => <div key={breed.id}>{breed.name}</div>)}
+          </BreedContainer>
+        </Modal>
+      </ImageContainer>
+      <BreedContainer>
+
+      </BreedContainer>
+    </>
   );
 });
 
 function Images() {
-  const { images, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, error } = useImages();
+  const { cats, fetchNextPage, hasNextPage, isFetchingNextPage, error } = useCats();
   const loader = useRef(null);
 
   useEffect(() => {
     const io = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+      if (entries[0].isIntersecting && hasNextPage) {
         fetchNextPage();
       }
     }, { threshold: 0.1 }); // 화면 내에 10% 이상 들어 왔을 때 콜백 함수 호출
-
     if (loader.current) {
       io.observe(loader.current);
     }
-
     return () => io.disconnect();
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
@@ -86,8 +98,13 @@ function Images() {
 
   return (
     <GridContainer>
-      {images?.map((image) => (
-        <ImageLoader key={image.id} src={image.url} width={image.width} height={image.height} alt="cat" />
+      {cats?.map((cat) => (
+        <ImageLoader 
+          id={cat.id} 
+          url={cat.url} 
+          width={cat.width} 
+          height={cat.height} 
+          breeds={cat.breeds} />
       ))}
       <div ref={loader} />
     </GridContainer>

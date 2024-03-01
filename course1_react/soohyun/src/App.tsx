@@ -1,4 +1,4 @@
-import { ImagesProvider } from './context/ImagesContext';
+import { CatsProvider } from './context/CatsContext';
 import Images from './components/Images';
 import Header from './layouts/Header';
 import GeneralStyles from './styles/GeneralStyles';
@@ -10,10 +10,10 @@ function App() {
     <div className="App">
       <GeneralStyles />
       <Header />
-      <ImagesProvider>
+      <CatsProvider>
         <Categories />
         <Images />
-      </ImagesProvider>
+      </CatsProvider>
     </div>
   );
 }
