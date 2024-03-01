@@ -10,9 +10,9 @@ const useGetDogs = () => {
     queryFn: () => {
       queryClient.prefetchQuery({
         queryKey: ["dogs", selectedPage + 1],
-        queryFn: () => getDogs(selectedPage + 1),
+        queryFn: () => getDogs({ pageParam: selectedPage + 1 }),
       });
-      return getDogs(selectedPage);
+      return getDogs({ pageParam: selectedPage });
     },
     staleTime: 60 * 1_000,
     refetchOnMount: false,
