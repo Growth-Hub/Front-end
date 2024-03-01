@@ -38,7 +38,7 @@ const HeaderLeft = () => {
 const HeaderContent = () => {
   return (
     <Flex $align="center" style={{ flex: 1, gap: "10px" }}>
-      <Select options={[]} placeholder="탐색" />
+      <Select options={[{ label: "1", value: "1" }]} placeholder="탐색" />
       <Input />
     </Flex>
   );
