@@ -8,7 +8,9 @@ interface GridProps {
 
 const Grid = styled.div<GridProps>(({ $coulmn, row }) => ({
   display: "grid",
-  gridTemplateColumns: $coulmn,
+  girdGap: "10px",
+  gridTemplateColumns: "repeat(auto-fill, minmax(250px, 1fr))",
+  gridAutoRows: "10px",
   gridTemplateRows: row,
 }));
 
