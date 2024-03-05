@@ -1,32 +1,46 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, {useState} from 'react'
+import styled from "styled-components";
 import { IoMdArrowDropdown } from "react-icons/io";
+import SearchWeb from './search/SearchWeb';
+import { InputBox } from '../styles/InputBox';
 
-const CategoryContainer = styled.div`
+const SearchBox = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+`;
+
+const Dropdown = styled.div`
+  width: 190px;
+  height: 60px;
+  border-top-left-radius: 10px; 
+  border-bottom-left-radius: 10px;
+  background-color: #A0A0A0;
+  line-height: 33px;
+  color: white;
+  position: relative;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  cursor: pointer;
 `;
 
 const DropdownContent = styled.div<{ open: boolean }>`
   display: ${({ open }) => (open ? 'block' : 'none')};
   position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
+  background-color: #A0A0A0;
+  width: 190px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
-`;
-
-const Category = styled.div`
-  display: flex;
-  align-items: center;
-  height: 70px;
-  font-size: 30px;
-  font-weight: bold;
+  text-align: center;
+  border-top-left-radius: 10px; 
 `;
 
 const CategoryItem = styled.div`
-  padding: 12px 16px;
+  padding: 18px;
   text-decoration: none;
   display: block;
   cursor: pointer;
@@ -45,21 +59,20 @@ const categories = [
   '카페'
 ];
 
-function Categories() {
+export default function Search() {
   const [open, setOpen] = useState<boolean>(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('고양이');
-
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
     setOpen(false);
   };
 
   return (
-    <CategoryContainer>
-      <Category>
-        {selectedCategory}
+    <SearchBox>
+      <Dropdown>
         <IoMdArrowDropdown onClick={() => setOpen(!open)} style={{cursor: 'pointer'}}/>
-      </Category>
+        {selectedCategory}
+      </Dropdown>
       <DropdownContent open={open}>
         {categories.map((category, index) => (
           <CategoryItem key={index} onClick={() => handleCategoryChange(category)}>
@@ -67,8 +80,8 @@ function Categories() {
           </CategoryItem>
         ))}
       </DropdownContent>
-    </CategoryContainer>
-  );
+      {selectedCategory === '웹문서' && <SearchWeb />}
+      {selectedCategory === '고양이' && <InputBox />}
+    </SearchBox>
+  )
 }
-
-export default Categories;

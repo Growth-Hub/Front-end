@@ -22,9 +22,10 @@ export const CatsProvider = ({ children }: { children: ReactNode }) => {
     isFetchingNextPage,
   } = useFetchInfiniteData();
 
-  const catsWithBreeds: Cat[] = data?.pages
+  const cat: Cat[] = data?.pages
     .flatMap(page =>
       page.data
+        //.filter((cat: any) => cat.breeds.length > 0)
         .map((cat: any) => ({
           id: cat.id,
           url: cat.url,
@@ -36,7 +37,7 @@ export const CatsProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <CatsContext.Provider value={{
-      cats: catsWithBreeds,
+      cats: cat,
       fetchNextPage,
       hasNextPage,
       isFetchingNextPage,

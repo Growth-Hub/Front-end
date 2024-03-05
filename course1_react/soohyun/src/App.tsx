@@ -9,11 +9,7 @@ function App() {
   return (
     <div className="App">
       <GeneralStyles />
-      <Header />
-      <CatsProvider>
-        <Categories />
-        <Images />
-      </CatsProvider>
+      <Images />
     </div>
   );
 }

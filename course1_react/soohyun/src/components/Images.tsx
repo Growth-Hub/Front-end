@@ -8,7 +8,7 @@ const GridContainer = styled.div`
   display: grid;
   gap: 0.5rem;
   padding: 10px;
-  grid-template-columns: repeat(4, 1fr); 
+  grid-template-columns: repeat(3, 1fr); 
 `;
 
 const ImageContainer = styled.div<{ photoSpan: number }>`
