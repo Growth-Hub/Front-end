@@ -1,5 +1,6 @@
 import { useGetInfiniteWeb } from '@hooks/api/useGetIinfiniteWeb'
 import React from 'react'
+import * as S from '@styles/components/WebSearchPosts'
 import WebSearchPostItem from './WebSearchPostItem'
 
 type Props = {
@@ -7,12 +8,18 @@ type Props = {
 }
 
 export default function WebSearchPosts({ searchQuery }: Props) {
-  const searchData = useGetInfiniteWeb(searchQuery)
+  const { data, observerElem } = useGetInfiniteWeb(searchQuery)
 
   return (
-    <div>
-      {searchData &&
-        searchData.pages.map(searchItem => <WebSearchPostItem key={searchItem.title} searchItem={searchItem} />)}
-    </div>
+    <S.WebSearchPostWrapper>
+      {data &&
+        data.pages.map((searchItem, index) => (
+          <WebSearchPostItem
+            ref={index === data.pages.length - 1 ? observerElem : null}
+            key={searchItem.title}
+            searchItem={searchItem}
+          />
+        ))}
+    </S.WebSearchPostWrapper>
   )
 }
