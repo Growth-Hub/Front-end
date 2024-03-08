@@ -8,7 +8,7 @@ export const WebSearchPostWrapper = styled.div`
 `
 
 export const WebSearchPostItem = styled.div`
-  width: 18em;
+  width: 18rem;
   color: #3f3a55;
   overflow: scroll;
   margin-bottom: 2rem;
