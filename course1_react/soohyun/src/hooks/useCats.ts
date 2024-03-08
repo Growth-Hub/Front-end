@@ -1,4 +1,3 @@
-// useImages.ts
 import { useContext } from 'react';
 import { CatsContext } from '../context/CatsContext';
 
