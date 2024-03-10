@@ -6,6 +6,7 @@ const StyledHeader = styled.header`
   position: relative;
   height: 100px;
   background-color: white;
+  margin-bottom: 50px;
 `;
 
 const Profile = styled.div`

@@ -1,19 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { useCats } from '../hooks/useCats';
-import Modal from './Modal';
-import { Cat } from '../models/cat';
+import { useCats } from '../../hooks/useCats';
+import Modal from '../../components/Modal';
+import { Cat } from '../../models/cat';
 
 const GridContainer = styled.div`
   display: grid;
-  gap: 0.5rem;
   padding: 10px;
-  grid-template-columns: repeat(3, 1fr); 
+  grid-template-columns: repeat(auto-fill, minmax(300px,1fr));
 `;
 
 const ImageContainer = styled.div<{ photoSpan: number }>`
   cursor: pointer;
   grid-row: span ${props => props.photoSpan};
+  padding: 10px;
 
   img {
     width: 100%;
@@ -87,7 +87,7 @@ function Images() {
       if (entries[0].isIntersecting && hasNextPage) {
         fetchNextPage();
       }
-    }, { threshold: 0.1 }); // 화면 내에 10% 이상 들어 왔을 때 콜백 함수 호출
+    }, { threshold: 0.5 }); 
     if (loader.current) {
       io.observe(loader.current);
     }
@@ -106,7 +106,7 @@ function Images() {
           height={cat.height} 
           breeds={cat.breeds} />
       ))}
-      <div ref={loader} />
+      <div ref={loader} style={{height: "100px"}}/>
     </GridContainer>
   );
 }
