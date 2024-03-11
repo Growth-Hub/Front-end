@@ -6,11 +6,11 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import App from './App';
 import Header from './layouts/Header';
-import Search from './components/Search';
-import WebResult from './components/daum/WebResult';
 import { CatsProvider } from './context/CatsContext';
-import { SearchProvider } from './context/SearchContext';
 import GeneralStyles from './styles/GeneralStyles';
+import Images from './pages/cat/Images';
+import SearchWeb from './pages/search/SearchWeb';
+import WebResult from './pages/results/WebResult';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -22,17 +22,16 @@ root.render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <CatsProvider>
-        <SearchProvider>
           <BrowserRouter>
             <GeneralStyles />
             <Header />
             <Routes>
               <Route path="/" element={<App />} /> 
-              <Route path="/daum/web/search" element={<WebResult />} /> 
+              <Route path="/cat" element={<Images />} /> 
+              <Route path="/search" element={<WebResult />} />
             </Routes>
-              <ReactQueryDevtools initialIsOpen={true} />
+            <ReactQueryDevtools initialIsOpen={true} />
           </BrowserRouter>
-        </SearchProvider>
       </CatsProvider>
     </QueryClientProvider>
 

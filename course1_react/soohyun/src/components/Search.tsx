@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import styled from "styled-components";
 import { IoMdArrowDropdown } from "react-icons/io";
-import SearchWeb from './search/SearchWeb';
-import { InputBox } from '../styles/InputBox';
+import SearchWeb from '../pages/search/SearchWeb';
+import { InputBox } from '../styles/Search';
 
 const SearchBox = styled.div`
   display: flex;
@@ -81,7 +81,14 @@ export default function Search() {
         ))}
       </DropdownContent>
       {selectedCategory === '웹문서' && <SearchWeb />}
-      {selectedCategory === '고양이' && <InputBox />}
+
+      {/* 변경 예정 */}
+      {selectedCategory === '고양이' && <InputBox /> }
+      {selectedCategory === '동영상' && <InputBox />}
+      {selectedCategory === '블로그' && <InputBox />}
+      {selectedCategory === '책' && <InputBox />}
+      {selectedCategory === '카페' && <InputBox />}
+      {selectedCategory === '이미지' && <InputBox />}
     </SearchBox>
   )
 }
