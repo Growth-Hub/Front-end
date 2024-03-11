@@ -2,10 +2,10 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import PageContextProvider from "./contexts/PageContext";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { GlobalStyle } from "./globalStyles";
+import TotalContextProvider from "./contexts/TotalContextProvider";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -14,12 +14,12 @@ const queryClient = new QueryClient();
 root.render(
   <React.StrictMode>
     <GlobalStyle />
-    <PageContextProvider>
+    <TotalContextProvider>
       <QueryClientProvider client={queryClient}>
         <ReactQueryDevtools initialIsOpen={false} />
         <App />
       </QueryClientProvider>
-    </PageContextProvider>
+    </TotalContextProvider>
   </React.StrictMode>
 );
 

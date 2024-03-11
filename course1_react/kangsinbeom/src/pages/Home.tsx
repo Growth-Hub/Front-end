@@ -4,11 +4,7 @@ import { Flex, ItemList } from "../components/shared";
 const HomePage = () => {
   return (
     <Flex $direction="column">
-      <Header
-        left={<Header.Left />}
-        content={<Header.Content />}
-        right={<Header.Right />}
-      />
+      <Header />
       <ItemList />
     </Flex>
   );

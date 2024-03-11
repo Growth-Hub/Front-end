@@ -1,7 +1,8 @@
 import { lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import HomePage from "./pages/Home";
 
+const HomePage = lazy(() => import("./pages/Home"));
+const SearchPage = lazy(() => import("./pages/Search"));
 const PaginationPage = lazy(() => import("./pages/Pagination"));
 
 const Router = () => {
@@ -10,6 +11,7 @@ const Router = () => {
       <Routes>
         <Route path="/pagination" Component={PaginationPage} />
         <Route path="/" Component={HomePage} />
+        <Route path="/search" Component={SearchPage} />
       </Routes>
     </BrowserRouter>
   );
