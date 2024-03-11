@@ -1,31 +1,14 @@
 import Header from "../components/layout/Header";
-import { Flex } from "../components/shared";
-import useInfinityGetKakao from "../hooks/useInfinityGetKakao";
-import withSuspense from "../hooks/withSuspense";
-import ListRow from "../components/shared/ListRow";
-import { KeyboardEvent } from "react";
-import { useSearchQueryContext } from "../contexts/SearchQueryContetxt";
+import { Flex, Spacing } from "../components/shared";
+import SearchResult from "../components/search/SearchResult";
 const SearchPage = () => {
-  const { searchQuery: query } = useSearchQueryContext();
-  const { data, fetchNextPage } = useInfinityGetKakao({ query });
-  const onChage = () => {
-    fetchNextPage();
-  };
-  const handleSearchInput = (e: KeyboardEvent<HTMLInputElement>) => {
-    console.log(e.target);
-  };
-  console.log(data.pages);
   return (
-    <Flex $direction="column">
+    <Flex $direction="column" style={{ position: "relative" }}>
       <Header />
-      <Flex $direction="column">
-        {data.pages.map(({ contents, title, url }, index) => (
-          <ListRow key={index} contents={contents} left={title} />
-        ))}
-      </Flex>
-      <div onClick={onChage}>Next</div>
+      <Spacing size={10} />
+      <SearchResult />
     </Flex>
   );
 };
 
-export default withSuspense(SearchPage, { fallback: <div>loading</div> });
+export default SearchPage;
