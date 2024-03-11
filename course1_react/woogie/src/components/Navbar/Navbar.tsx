@@ -3,6 +3,7 @@ import * as S from '@styles/components/Navbar'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import SearchInput from './SearchInput'
 
 export default function Navbar() {
   const [searchQuery, setSearchQuery] = useState<string>('')
@@ -27,16 +28,13 @@ export default function Navbar() {
       </div>
       {urlParam.pathname === '/search' ? (
         <S.NavSearchWrapper>
-          <input
-            type="text"
-            onChange={e => {
-              setSearchQuery(e.target.value)
-            }}
-          />
+          <SearchInput searchQuery={searchQuery} moveSearchQuery={moveSearchQuery} setSearchQuery={setSearchQuery} />
           <FontAwesomeIcon
             icon={faMagnifyingGlass}
             onClick={() => {
-              moveSearchQuery(searchQuery)
+              if (searchQuery) {
+                moveSearchQuery(searchQuery)
+              }
             }}
           />
         </S.NavSearchWrapper>
