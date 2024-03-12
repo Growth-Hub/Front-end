@@ -46,3 +46,14 @@ export const SearchInputAutoList = styled.ul`
     }
   }
 `
+export const LoginButton = styled.button`
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
+  background-color: #ece9fb;
+  color: #8e8383;
+
+  &:hover {
+    color: black;
+    background-color: #c7bdf7;
+  }
+`

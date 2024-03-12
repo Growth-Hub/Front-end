@@ -39,15 +39,17 @@ export default function SearchInput({ searchQuery, setSearchQuery, moveSearchQue
       {autoList && (
         <S.SearchInputAutoList>
           {autoList.documents.map((searchItem, index) => (
-            <Link key={searchItem.title + String(index)} to={searchItem.url}>
-              <li
-                onClick={() => {
+            <div key={searchItem.title + String(index)}>
+              <Link
+                style={{ cursor: 'pointer' }}
+                onMouseDown={() => {
                   handleAutoListItem()
                 }}
+                to={searchItem.url}
               >
                 {searchItem.title.replace(/(<([^>]+)>)/gi, '')}
-              </li>
-            </Link>
+              </Link>
+            </div>
           ))}
         </S.SearchInputAutoList>
       )}
