@@ -1,9 +1,9 @@
 import { useInfiniteQuery } from '@tanstack/react-query';
 
 async function fetchInfiniteData({ pageParam = 1 }) {
-  const limit = 20; // 한 번에 불러올 데이터 수
+  const limit = 10; // 한 번에 불러올 데이터 수
   const response = await fetch(`https://api.thecatapi.com/v1/images/search?limit=${limit}&page=${pageParam}`, {
-    headers: { 'x-api-key': 'live_CGL7BtiNmm0aAub1mWrrHDEaRfoHNmd7z9OOTJZU8qcccVJ4GvsAAEqRKZOy6eRs' },
+    headers: { 'x-api-key': `${process.env.REACT_APP_REST_API_KEY}` },
   });
 
   if (!response.ok) throw new Error('api error');

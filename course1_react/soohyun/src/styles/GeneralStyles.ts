@@ -2,8 +2,9 @@ import { createGlobalStyle } from 'styled-components';
 
 const GeneralStyles = createGlobalStyle`
   body {
-    padding: 0px 150px;
+    padding: 130px 150px;
     font-family: 'Noto Sans';
+    background-color:  ${props => props.theme.colors.bg};
   }
 
   h1, h2, h3, p, ul, ol, li {

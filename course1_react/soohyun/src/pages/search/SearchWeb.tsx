@@ -7,8 +7,14 @@ import { shortenText } from '../../utils/shortenText';
 
 export default function SearchWeb() {
   const [input, setInput] = useState<string>('');
-  const [showResults, setShowResults] = useState<boolean>(true);
+  const [showResults, setShowResults] = useState<boolean>(false);
   const navigate = useNavigate();
+
+  const handleFocus = () => {
+    if(input.trim()) {
+      setShowResults(true);
+    }
+  };
 
   // 디바운싱
   const [debouncedInput, setDebouncedInput] = useState<string>(input);
@@ -31,14 +37,14 @@ export default function SearchWeb() {
 
   // 결과 선택
   const handleSelect = (query: string) => {
-    navigate(`/search?query=${query}`);
+    navigate(`/web/search?query=${query}`);
     setShowResults(false);
   };
 
   // enter 검색 결과
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && input.trim() !== '') {
-      navigate(`/search?query=${input}`);
+      navigate(`/web/search?query=s${input}`);
       setShowResults(false);
     }
   };
@@ -50,7 +56,7 @@ export default function SearchWeb() {
         value={input}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
-        onFocus={() => setInput('')}
+        onFocus={handleFocus}
         placeholder='웹 검색'
       />
       {showResults && data?.pages.map((page, pageIndex) => (
