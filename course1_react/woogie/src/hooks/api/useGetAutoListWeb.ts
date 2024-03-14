@@ -11,6 +11,7 @@ const axiosKaKaoApi = axios.create({
 export const useGetAutoListWeb = (debounceSearchQuery: string) => {
   const [autoList, setAutoList] = useState<KakaoWebSearchType>()
   const handleAutoListItem = () => {
+    console.log(1)
     setAutoList(undefined)
   }
 
