@@ -1,74 +1,53 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { IoMdArrowDropdown } from "react-icons/io";
+import { useLocation, useNavigate } from 'react-router-dom';
 
-const CategoryContainer = styled.div`
+const CategoriesContainer = styled.div`
+  
   display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 10px 0;
 `;
 
-const DropdownContent = styled.div<{ open: boolean }>`
-  display: ${({ open }) => (open ? 'block' : 'none')};
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-`;
-
-const Category = styled.div`
+const Category = styled.div<{isActive: boolean}>`
   display: flex;
-  align-items: center;
-  height: 70px;
-  font-size: 30px;
-  font-weight: bold;
-`;
-
-const CategoryItem = styled.div`
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
+  margin: 0 15px;
   cursor: pointer;
-  &:hover {
-    background-color: #f1f1f1;
-  }
+  padding: 7px 15px;
+  border-bottom: ${props => props.isActive ? `4px solid ${props.theme.colors.primary}` : 'none'};
+
 `;
 
 const categories = [
-  '고양이',
-  '웹문서',
-  '동영상',
-  '이미지',
-  '블로그',
-  '책',
-  '카페'
+  { name: '고양이', path: '/cat' },
+  { name: '웹문서', path: '/web/search' },
+  { name: '동영상', path: '/video' },
+  { name: '이미지', path: '/image' },
+  { name: '블로그', path: '/blog' },
+  { name: '책', path: '/book' },
+  { name: '카페', path: '/cafe' },
 ];
 
-function Categories() {
-  const [open, setOpen] = useState<boolean>(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>('고양이');
+const Categories = () => {
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
-  const handleCategoryChange = (category: string) => {
-    setSelectedCategory(category);
-    setOpen(false);
+  const handleCategoryClick = (path: string) => {
+    navigate(path);
   };
 
   return (
-    <CategoryContainer>
-      <Category>
-        {selectedCategory}
-        <IoMdArrowDropdown onClick={() => setOpen(!open)} style={{cursor: 'pointer'}}/>
-      </Category>
-      <DropdownContent open={open}>
-        {categories.map((category, index) => (
-          <CategoryItem key={index} onClick={() => handleCategoryChange(category)}>
-            {category}
-          </CategoryItem>
-        ))}
-      </DropdownContent>
-    </CategoryContainer>
+    <CategoriesContainer>
+      {categories.map((category, index) => (
+        <Category 
+        key={index} 
+        onClick={() => handleCategoryClick(category.path)}
+        isActive={pathname === category.path}>
+          {category.name}
+        </Category>
+      ))}
+    </CategoriesContainer>
   );
-}
+};
 
 export default Categories;
+

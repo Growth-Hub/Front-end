@@ -30,5 +30,6 @@ export function useWebResults(query: string) {
     queryFn: ({ pageParam = 1 }) => fetchWebResults(query, pageParam),
     initialPageParam: 1,
     getNextPageParam: (lastPage) => lastPage.nextPage,
+    enabled: !!query
   });
 }
