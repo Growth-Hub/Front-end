@@ -1,21 +1,19 @@
-import { Button, Flex, Input } from "../shared";
-import {
-  FocusEvent,
-  FocusEventHandler,
-  KeyboardEvent,
-  MouseEvent,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import { Button, Flex, SearchInput } from "../shared";
+import { KeyboardEvent, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDebounce } from "../../hooks/useDebounce";
 import useGetQueryFromLocation from "../../hooks/useGetQueryFromLocation";
 import { Link } from "react-router-dom";
 import AutoSearch from "../search/AutoSearch";
+import { useModalContext } from "../../contexts/ModalContext";
+import { useAuthContext } from "../../contexts/AuthContext";
+import { signOut } from "firebase/auth";
+import { auth } from "../../apis/firebase";
 
 const Header = () => {
   const navigate = useNavigate();
+  const { setIsOpen } = useModalContext();
+  const { user } = useAuthContext();
   const [query, setQuery] = useState<string>("");
   const [hidden, setHidden] = useState<boolean>(true);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -33,7 +31,6 @@ const Header = () => {
       inputRef.current.blur();
     }
   };
-
   useEffect(() => {
     if (newQuery) setQuery(newQuery);
   }, [newQuery]);
@@ -62,7 +59,7 @@ const Header = () => {
         $align="center"
         style={{ flex: 1, gap: "10px", position: "relative" }}
       >
-        <Input
+        <SearchInput
           ref={inputRef}
           type="text"
           value={query}
@@ -83,10 +80,11 @@ const Header = () => {
           }}
         />
       </Flex>
-      <Flex $align="center" style={{ gap: "10px" }}>
-        <Button>로그인</Button>
-        <Button>가입하기</Button>
-      </Flex>
+      {user.uid ? (
+        <Button onClick={() => signOut(auth)}>로그아웃</Button>
+      ) : (
+        <Button onClick={() => setIsOpen(true)}>로그인</Button>
+      )}
     </Flex>
   );
 };

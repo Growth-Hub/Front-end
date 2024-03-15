@@ -28,26 +28,6 @@ const AutoSearch = ({
     queryFn: () => getRecommendKeywords({ query: debouncedQuery }),
   });
   const searchHidden = debouncedQuery ? hidden : true;
-  // useEffect(() => {
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (
-  //       searchRef.current &&
-  //       !searchRef.current.contains(event.target as Node)
-  //     ) {
-  //       onClose(); // 모달 외부 클릭 시 onClose 콜백 호출
-  //     }
-  //   };
-
-  //   // 모달이 열려 있을 때만 이벤트 리스너를 추가합니다.
-  //   if (searchHidden) {
-  //     document.addEventListener("mousedown", handleClickOutside);
-  //   }
-
-  //   // Cleanup function
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [searchHidden]);
 
   return (
     <Container hidden={searchHidden} ref={searchRef}>
