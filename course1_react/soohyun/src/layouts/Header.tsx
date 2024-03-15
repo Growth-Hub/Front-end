@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import styled from "styled-components";
-import { User, getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { User, getAuth, onAuthStateChanged } from "firebase/auth";
 import Search from '../components/Search';
 import { FaRegUserCircle } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import { useFirebaseLogin } from '../hooks/useFirebaseLogin';
 
 const StyledHeader = styled.header<{shrink:boolean}>`
   position: fixed;
@@ -22,6 +23,13 @@ const Profile = styled.div`
   right: 180px;
 `;
 
+const UserProfileImage = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 5px;
+`;
+
 const Username = styled.div`
   display: flex;
   align-items: center;
@@ -35,6 +43,7 @@ const LogoutBtn = styled.button`
 
 export default function Header() {
   const navigate = useNavigate();
+  
   //카테고리 관리
   const [shrink, setShrink] = useState(false);
   const handleScroll = () => {
@@ -55,14 +64,7 @@ export default function Header() {
     });
     return userState; 
   }, [auth]);
-  //로그아웃
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-    } catch (error) {
-      console.error("Logout error:", error);
-    }
-  };
+  const { logout } = useFirebaseLogin();
 
   return (
     <StyledHeader shrink={shrink}>
@@ -70,9 +72,13 @@ export default function Header() {
       <Profile>
         {user ? (
           <Username>
-            <FaRegUserCircle style={{marginRight: '5px'}}/>
+            {user.photoURL ? (
+              <UserProfileImage src={user.photoURL} alt="User profile" />
+            ) : (
+              <FaRegUserCircle style={{marginRight: '5px'}}/>
+            )}
             {user.displayName}
-            <LogoutBtn onClick={handleLogout}>Logout</LogoutBtn>
+            <LogoutBtn onClick={() => logout()}>Logout</LogoutBtn>
           </Username> 
         ) : (
           <button onClick={() => navigate("/signin")}>로그인</button> 

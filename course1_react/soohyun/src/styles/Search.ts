@@ -5,11 +5,12 @@ export const InputBox = styled.input`
   height: 50px;
   border-radius: 30px; 
   border: 2px solid #adadad;
+  padding-left: 30px;
   
 `;
 
 export const ResultItem = styled.div`
-padding: 10px 0 10px 10px;;
+padding: 10px 0 10px 10px;
 background-color: #eee;
 border: 1px solid white;
 `;

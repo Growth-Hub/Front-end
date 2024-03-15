@@ -30,7 +30,7 @@ export const Input = styled.input`
 `;
 
 export const Button = styled.button`
-  margin-top: 50px;
+  margin-top: 30px;
   padding: 10px;
   border: none;
   border-radius: 20px;
@@ -60,4 +60,17 @@ export const Account = styled.div`
 
   color: ${props => props.theme.colors.bg};
   margin-top: 50px;
+`;
+
+export const SocialLoginBtn = styled.button`
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  padding: 10px;
+  border: none;
+  border-radius: 5em;
+  background-color: ${props => props.theme.colors.bg};
+  color: ${props => props.theme.colors.primary};
+  font-weight: 600;
+  cursor: pointer;
 `;
