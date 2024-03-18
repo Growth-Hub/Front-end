@@ -1,9 +1,10 @@
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import app from '../../firebase'; // Firebase 설정이 포함된 파일의 경로에 맞게 조정
-import { Button, ErrorMessage, ID, Input, LoginContainer, LoginForm, PW, Account } from '../../styles/Login';
 import { Link, useNavigate } from 'react-router-dom';
+import { useFirebaseLogin } from '../../hooks/useFirebaseLogin'; 
+import { Button, ErrorMessage, ID, Input, LoginContainer, LoginForm, PW, Account, SocialLoginBtn } from '../../styles/Login';
+import { ReactComponent as Github } from '../../assets/github-mark.svg';
+import { ReactComponent as Google } from '../../assets/google-logo.svg';
 
 interface InputType {
   email: string;
@@ -11,17 +12,12 @@ interface InputType {
 }
 
 export default function SignIn() {
-  const { register, formState: { errors }, handleSubmit } = useForm<InputType>();
-  const auth = getAuth(app);
+  const { register, formState: { errors }, handleSubmit } = useForm<InputType>({mode: 'all'});
   const navigate = useNavigate();
+  const { emailLogin, googleLogin, githubLogin, error } = useFirebaseLogin();
 
-  const onSubmit: SubmitHandler<InputType> = async ({ email, password }) => {
-    try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/cat")
-    } catch (error) {
-      console.error('Login error:', error);
-    }
+  const onSubmit: SubmitHandler<InputType> = ({ email, password }) => {
+    emailLogin(email, password).then(() => navigate("/cat"));
   };
 
   return (
@@ -30,9 +26,9 @@ export default function SignIn() {
       <LoginForm onSubmit={handleSubmit(onSubmit)}>
         <div>
           <ID>Email</ID>
-          <Input 
-            type="text" 
-            {...register("email", { 
+          <Input
+            type="text"
+            {...register("email", {
               required: "이메일을 입력해주세요.",
               pattern: {
                 value: /^\S+@\S+$/i,
@@ -43,9 +39,9 @@ export default function SignIn() {
           {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
 
           <PW>Password</PW>
-          <Input 
-            type="password" 
-            {...register("password", { 
+          <Input
+            type="password"
+            {...register("password", {
               required: "비밀번호를 입력해주세요.",
               minLength: {
                 value: 6,
@@ -54,9 +50,11 @@ export default function SignIn() {
             })}
           />
           {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
+          {error && <ErrorMessage>{error}</ErrorMessage>}
         </div>
-
         <Button type="submit">Login</Button>
+        <SocialLoginBtn onClick={googleLogin}><Google style={{marginRight: '10px'}}/>Sign in with Google</SocialLoginBtn>
+        <SocialLoginBtn onClick={githubLogin}><Github style={{marginRight: '10px'}}/>Sign in with Github</SocialLoginBtn>
         <Account><Link to="/signup" style={{color:"white"}}>create account</Link></Account>
       </LoginForm>
     </LoginContainer>
